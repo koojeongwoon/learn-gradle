@@ -1,10 +1,12 @@
 import mytask.MyCustomTask
 
 plugins {
-    id("java")
+    java
 }
 
 
+val javaVersion: String by project
+val jacksonVersion: String by project
 
 // JDK 버전을 사용자가 직접 명시할 수 있음.
 // JDK 버전을 바꾼다고, 빌드 스크립트를 따로 수정하지 않음.
@@ -12,7 +14,7 @@ plugins {
 java {
     toolchain {
         // languageVersion.set(JavaLanguageVersion.of(17))
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
     }
 }
 
@@ -26,7 +28,7 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }
 
 // jar task 커스텀
