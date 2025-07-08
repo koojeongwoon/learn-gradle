@@ -7,6 +7,7 @@ plugins {
 
 val javaVersion: String by project
 val jacksonVersion: String by project
+val junitVersion: String by project
 
 // JDK 버전을 사용자가 직접 명시할 수 있음.
 // JDK 버전을 바꾼다고, 빌드 스크립트를 따로 수정하지 않음.
@@ -29,6 +30,31 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+
+    // 여기가 junit5 표준 라이브러리라고 보면 됨. 아래 4줄.
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") // *******
+    // EngineDiscoveryRequest가 생성될때, 반드시, OutputDirectoryProvider**를 인자로 받음.
+    // 이 Provider는 테스트 중 생성되는 아티팩트(예: 리포트, 스냅샷 등)의 출력을 위한 디렉토리 관리를 담당
+    // 런처가 없으면 Gradle이 자동으로 프로바이더를 넘길수 없음.
+    // JUnit Jupiter 엔진이 discovery 과정에서 OutputDirectoryProvider not available 예외
+    // junit-platform-launcher이걸 넣으면 JUnit Platform Launcher의 SPI(Service Provider Interface) 구현을 찾을 수 있음
+    // Launcher가 정상 동작 → EngineDiscoveryRequest에 OutputDirectoryProvider를 포함해서 엔진에게 넘겨줌
+    // TODO : 추후 소스 레벨로 파악 필요함.
+
+    // 아래 3개 다 쓸거면 이거 하나만..
+    // testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+
+    // 이건 테스트 파일 컴파일을 위해서..
+    // @Test, @BeforeEach, Assertions.assertEquals() 등 테스트 코드 작성을 위한 API
+    // testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    // 이건 파라미터라이즈드 테스트 할꺼면 넣고.. 아님 빼고..
+    // @ParameterizedTest, @ValueSource, @CsvSource 등 사용 시 필요
+    // testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+    // 이건 테스트 실행기 (테스트 실행 시 필요)
+    // testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
 // jar task 커스텀
