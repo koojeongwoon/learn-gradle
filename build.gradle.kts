@@ -61,6 +61,8 @@ dependencies {
 // java plugin 필수!
 tasks.named<Jar>("jar") {
     archiveBaseName.set("my-app") // 생성되는 JAR 파일 이름이 my-app-<version>.jar로 바뀜
+//    archiveVersion.set("2.3.4") // 또는 .set("")으로 버전 제거 가능
+//    archiveClassifier.set("")   // 예: "-sources", "-plain" 같은 추가 접미사 제거
     from("extra-resources/") // extra-resources/ 디렉토리 내용이 JAR 안에 함께 패키징됨
     // project/					->	 my-app-1.0.0.jar
     // ├── build.gradle.kts		->	 ├── META-INF/
