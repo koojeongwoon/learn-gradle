@@ -1,0 +1,11 @@
+app:
+  name: LearnGradle-Test
+  version: 1.0.0-SNAPSHOT
+
+server:
+  port: 9090
+
+logging:
+  level:
+    root: WARN
+    com.tinyquest: INFO
