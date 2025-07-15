@@ -1,13 +1,12 @@
-import mytask.MyCustomTask
+// println(">>> Settings file location: ${settings.settingsDir}")
+println(">>> Gradle version: ${gradle.gradleVersion}")
+val javaVersion: String by project
+val jacksonVersion: String by project
+val junitVersion: String by project
 
 plugins {
     java
 }
-
-
-val javaVersion: String by project
-val jacksonVersion: String by project
-val junitVersion: String by project
 
 // JDK 버전을 사용자가 직접 명시할 수 있음.
 // JDK 버전을 바꾼다고, 빌드 스크립트를 따로 수정하지 않음.
@@ -20,7 +19,7 @@ java {
 }
 
 
-group = "org.example"
+group = "com.tinyquest"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -60,6 +59,7 @@ dependencies {
 // jar task 커스텀
 // java plugin 필수!
 tasks.named<Jar>("jar") {
+
     archiveBaseName.set("my-app") // 생성되는 JAR 파일 이름이 my-app-<version>.jar로 바뀜
 //    archiveVersion.set("2.3.4") // 또는 .set("")으로 버전 제거 가능
 //    archiveClassifier.set("")   // 예: "-sources", "-plain" 같은 추가 접미사 제거
