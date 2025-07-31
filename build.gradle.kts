@@ -1,11 +1,13 @@
 // println(">>> Settings file location: ${settings.settingsDir}")
-println(">>> Gradle version: ${gradle.gradleVersion}")
+println(">>> Java version From Property : ${project.property("javaVersion")}")
 val javaVersion: String by project
+println(">>> Java version From project: $javaVersion")
 val jacksonVersion: String by project
 val junitVersion: String by project
 
 plugins {
-    java
+    id("java")
+    // id("java-library")
 }
 
 // JDK 버전을 사용자가 직접 명시할 수 있음.
@@ -18,6 +20,11 @@ java {
     }
 }
 
+configurations.forEach { config ->
+    println("▶ Configuration: ${config.name}")
+    println("   canBeResolved = ${config.isCanBeResolved}")
+    println("   canBeConsumed = ${config.isCanBeConsumed}")
+}
 
 group = "com.tinyquest"
 version = "1.0-SNAPSHOT"
